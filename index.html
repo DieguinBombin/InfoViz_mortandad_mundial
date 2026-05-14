@@ -249,15 +249,8 @@
     .toolbar {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 22px;
-      background: rgba(15, 23, 42, 0.72);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 16px 60px rgba(0, 0, 0, 0.24);
       transition: transform 480ms ease, opacity 480ms ease;
     }
 
@@ -278,8 +271,6 @@
       min-height: 42px;
       padding: 9px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(255, 255, 255, 0.08);
       color: var(--muted);
       transition: background 240ms ease, transform 240ms ease;
     }
@@ -338,13 +329,6 @@
       position: relative;
       min-height: 640px;
       overflow: hidden;
-      border-radius: 28px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background:
-        radial-gradient(circle at 50% 45%, rgba(96, 165, 250, 0.12), transparent 45%),
-        rgba(15, 23, 42, 0.68);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 24px 100px rgba(0, 0, 0, 0.3);
       transition: transform 580ms cubic-bezier(.18,.76,.28,1), opacity 580ms ease, box-shadow 580ms ease;
     }
 
@@ -355,7 +339,7 @@
     #map {
       display: block;
       width: 100%;
-      height: 100%;
+      height: 80%;
       min-height: 640px;
     }
 
@@ -444,7 +428,6 @@
     .selected-info {
       position: absolute;
       left: 18px;
-      bottom: 18px;
       max-width: min(430px, calc(100% - 36px));
       padding: 14px 16px;
       border-radius: 18px;
@@ -659,7 +642,6 @@
             <select id="yearSelect" aria-label="Seleccionar año"></select>
           </div>
           <div id="globalPill" class="pill">Promedio mundial: --</div>
-          <div class="pill">Click en un país: aparece su corazón y cambia el latido</div>
         </div>
         <div class="toolbar-right">
           <button id="soundButton" class="sound-btn" type="button">Sonido desactivado</button>
