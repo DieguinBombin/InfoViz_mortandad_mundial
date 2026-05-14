@@ -20,6 +20,8 @@
       --countryBeat: 0.85s;
       --timelineBeat: 0.85s;
       --timelineHeartScale: 1;
+      --keyEventBeat: 0.85s;
+      --keyEventHeartScale: 1;
     }
 
     * { box-sizing: border-box; }
@@ -242,8 +244,14 @@
       min-height: calc(100vh - 36px);
       margin: auto;
       display: grid;
+      grid-template-columns: minmax(96px, 128px) minmax(0, 1fr);
       grid-template-rows: auto 1fr;
       gap: 14px;
+      align-items: stretch;
+    }
+
+    .toolbar {
+      grid-column: 1 / -1;
     }
 
     .toolbar {
@@ -288,6 +296,151 @@
 
     select option { color: #0f172a; }
 
+    .year-select-pill {
+      display: none;
+    }
+
+    .year-sidebar {
+      grid-column: 1;
+      grid-row: 2;
+      min-height: 640px;
+      min-width: 0;
+    }
+
+    .year-panel {
+      height: 100%;
+      max-height: calc(100vh - 112px);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      gap: 10px;
+      padding: 12px 10px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(15, 23, 42, 0.54);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 16px 60px rgba(0, 0, 0, 0.22);
+      overflow: hidden;
+    }
+
+    .year-panel-title {
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .year-list {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 2px 2px 4px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(251, 113, 133, 0.72) rgba(255, 255, 255, 0.08);
+    }
+
+    .year-list::-webkit-scrollbar { width: 8px; }
+    .year-list::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 999px;
+    }
+    .year-list::-webkit-scrollbar-thumb {
+      background: rgba(251, 113, 133, 0.72);
+      border-radius: 999px;
+    }
+
+    .year-item {
+      width: 100%;
+      min-height: 40px;
+      display: grid;
+      grid-template-columns: 12px 1fr;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 850;
+      font-variant-numeric: tabular-nums;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease;
+    }
+
+    .year-item:hover {
+      transform: translateX(2px);
+      color: white;
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.24);
+    }
+
+    .year-item.active {
+      color: white;
+      border-color: rgba(251, 113, 133, 0.62);
+      background: linear-gradient(135deg, rgba(251, 113, 133, 0.9), rgba(190, 18, 60, 0.86));
+      box-shadow: 0 10px 28px rgba(244, 63, 94, 0.26);
+    }
+
+    .year-key-marker {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .year-item.has-key .year-key-marker {
+      background: #fecdd3;
+      box-shadow: 0 0 0 4px rgba(251, 113, 133, 0.16), 0 0 14px rgba(251, 113, 133, 0.75);
+    }
+
+    .year-panel-hint {
+      color: rgba(203, 213, 225, 0.78);
+      font-size: 0.74rem;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+
+    .key-timeline-btn {
+      width: 100%;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      border: 1px solid rgba(251, 113, 133, 0.56);
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, rgba(251, 113, 133, 0.82), rgba(190, 18, 60, 0.82));
+      box-shadow: 0 12px 28px rgba(244, 63, 94, 0.22);
+      cursor: pointer;
+      font-weight: 900;
+      font-size: 0.78rem;
+      line-height: 1.05;
+      text-align: center;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .key-timeline-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      background: linear-gradient(135deg, rgba(251, 113, 133, 1), rgba(190, 18, 60, 1));
+      border-color: rgba(254, 202, 202, 0.72);
+      box-shadow: 0 14px 32px rgba(244, 63, 94, 0.34);
+    }
+
+    .key-timeline-btn.active {
+      background: linear-gradient(135deg, rgba(127, 29, 29, 0.94), rgba(239, 68, 68, 0.88));
+      border-color: rgba(254, 202, 202, 0.8);
+    }
+
+    .key-timeline-btn:disabled {
+      opacity: .42;
+      cursor: not-allowed;
+    }
+
     .back-btn, .sound-btn, .timeline-btn {
       border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: 999px;
@@ -326,8 +479,11 @@
     }
 
     .map-card {
+      grid-column: 2;
+      grid-row: 2;
       position: relative;
       min-height: 640px;
+      min-width: 0;
       overflow: hidden;
       transition: transform 580ms cubic-bezier(.18,.76,.28,1), opacity 580ms ease, box-shadow 580ms ease;
     }
@@ -489,6 +645,275 @@
     }
 
 
+    .key-event-marker {
+      cursor: pointer;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .36));
+    }
+
+    .key-event-marker .key-event-dot {
+      fill: #fecdd3;
+      stroke: rgba(255, 255, 255, 0.92);
+      stroke-width: 1.8;
+      transition: transform 180ms ease, fill 180ms ease, stroke-width 180ms ease;
+    }
+
+    .key-event-marker .key-event-ring {
+      fill: none;
+      stroke: rgba(251, 113, 133, 0.76);
+      stroke-width: 2;
+      opacity: .9;
+      animation: keyPointPulse 1.45s infinite ease-out;
+      transform-origin: center;
+      transform-box: fill-box;
+    }
+
+    .key-event-marker .key-event-year-label {
+      fill: white;
+      stroke: rgba(0, 0, 0, .72);
+      stroke-width: 3px;
+      paint-order: stroke;
+      font-weight: 900;
+      font-size: 12px;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+    }
+
+    .key-event-marker:hover .key-event-dot,
+    .key-event-marker.active .key-event-dot {
+      fill: #fb7185;
+      transform: scale(1.18);
+      stroke-width: 2.4;
+    }
+
+    @keyframes keyPointPulse {
+      0% { transform: scale(.72); opacity: .9; }
+      72%, 100% { transform: scale(1.85); opacity: 0; }
+    }
+
+    .selected-info.event-mode {
+      max-width: min(560px, calc(100% - 36px));
+      color: #dbeafe;
+    }
+
+    .event-info-content {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .event-info-heart {
+      width: 58px;
+      height: 54px;
+      position: relative;
+      transform: scale(var(--keyEventHeartScale));
+      transform-origin: top left;
+      transition: transform 360ms cubic-bezier(.18,.76,.28,1);
+      filter: drop-shadow(0 10px 18px rgba(239, 68, 68, .26));
+    }
+
+    .event-info-heart svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      animation: keyEventHeartBeat var(--keyEventBeat) infinite cubic-bezier(.2,.8,.2,1);
+      transform-origin: 50% 58%;
+    }
+
+    .event-info-heart-rate {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding-top: 5px;
+      color: white;
+      font-size: .82rem;
+      font-weight: 950;
+      letter-spacing: -.06em;
+      text-shadow: 0 2px 8px rgba(0,0,0,.5);
+    }
+
+    @keyframes keyEventHeartBeat {
+      0%, 100% { transform: scale(1); }
+      12% { transform: scale(1.14); }
+      24% { transform: scale(.97); }
+      36% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+    }
+
+
+
+    .key-event-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 2147483000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(2, 6, 23, 0.66);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 260ms ease, visibility 0ms linear 260ms;
+    }
+
+    .key-event-modal-backdrop.visible,
+    .key-event-modal-backdrop[aria-hidden="false"] {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      transition: opacity 260ms ease, visibility 0ms linear 0ms;
+    }
+
+    .key-event-modal {
+      position: relative;
+      width: min(760px, calc(100vw - 32px));
+      max-height: min(78vh, 760px);
+      overflow: auto;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background:
+        radial-gradient(circle at 12% 12%, rgba(251, 113, 133, 0.20), transparent 32%),
+        rgba(15, 23, 42, 0.92);
+      box-shadow: 0 30px 120px rgba(0, 0, 0, 0.52);
+      padding: clamp(20px, 4vw, 32px);
+      transform: translateY(12px) scale(0.985);
+      transition: transform 300ms cubic-bezier(.18,.76,.28,1);
+    }
+
+    .key-event-modal-backdrop.visible .key-event-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .key-event-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: white;
+      cursor: pointer;
+      font-size: 1.4rem;
+      line-height: 1;
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .key-event-modal-close:hover {
+      transform: scale(1.05);
+      background: rgba(255,255,255,.14);
+    }
+
+    .key-event-modal-grid {
+      display: grid;
+      grid-template-columns: 126px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .key-event-modal-content {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+    }
+
+    .modal-event-heart {
+      width: 82px;
+      height: 76px;
+      margin: 8px 0 0 -18px;
+      transform-origin: top left;
+    }
+
+    .key-event-modal-kicker {
+      margin: 0 0 6px;
+      color: #fecdd3;
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+    }
+
+    .key-event-modal h2 {
+      margin: 0 36px 10px 0;
+      color: white;
+      font-size: clamp(1.35rem, 3.2vw, 2.15rem);
+      line-height: 1.03;
+      letter-spacing: -0.04em;
+    }
+
+    .key-event-modal-summary {
+      margin: 0 0 12px;
+      color: #fff;
+      font-weight: 850;
+      line-height: 1.38;
+    }
+
+    .key-event-modal-description {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .key-event-modal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+
+    .key-event-modal-actions .key-timeline-btn {
+      width: auto;
+      min-width: 210px;
+      padding-inline: 18px;
+    }
+
+    .key-event-timeline-status {
+      color: rgba(203, 213, 225, .88);
+      font-size: .86rem;
+      line-height: 1.25;
+    }
+
+    @media (max-width: 640px) {
+      .key-event-modal-grid { grid-template-columns: 1fr; }
+      .modal-event-heart { margin: 6px auto 4px; transform-origin: center top; }
+      .key-event-modal-actions .key-timeline-btn { width: 100%; }
+    }
+
+    .event-info-text h3 {
+      margin: 0 0 6px;
+      color: white;
+      font-size: 1rem;
+      line-height: 1.18;
+    }
+
+    .event-info-text p {
+      margin: 0 0 7px;
+      color: var(--muted);
+      line-height: 1.36;
+      font-size: .91rem;
+    }
+
+    .event-info-text .event-summary {
+      color: #fecdd3;
+      font-weight: 800;
+    }
+
+    .event-info-text .event-meta {
+      color: rgba(255,255,255,.84);
+      font-size: .82rem;
+    }
+
+
     .timeline-heart-overlay {
       position: absolute;
       top: 16px;
@@ -580,7 +1005,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .heart-svg, .country-heart-beat, .timeline-heart-svg { animation-duration: 1.8s; }
+      .heart-svg, .country-heart-beat, .timeline-heart-svg, .event-info-heart svg { animation-duration: 1.8s; }
       .screen, .map-card, .toolbar, .country { transition-duration: 0.01ms !important; }
     }
 
@@ -588,11 +1013,34 @@
       body { overflow: auto; }
       .screen { padding: 16px; }
       .intro-card { padding: 22px 16px 26px; }
-      .toolbar { align-items: stretch; }
+      .map-shell {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+      }
+      .toolbar { align-items: stretch; grid-column: 1; }
       .toolbar-left, .toolbar-right { width: 100%; }
       .pill { flex: 1 1 auto; justify-content: center; }
       .back-btn, .sound-btn, .timeline-btn { width: 100%; }
+      .year-sidebar {
+        grid-column: 1;
+        grid-row: 2;
+        min-height: 0;
+      }
+      .year-panel {
+        height: auto;
+        max-height: none;
+        grid-template-rows: auto auto auto;
+      }
+      .year-list {
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(82px, 1fr);
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 6px;
+      }
+      .year-panel-hint { display: none; }
       .map-card, #map { min-height: 560px; }
+      .map-card { grid-column: 1; grid-row: 3; }
       .selected-info, .legend { position: static; margin: 10px 14px; width: auto; max-width: none; }
       .map-card { display: flex; flex-direction: column; }
     }
@@ -637,7 +1085,7 @@
       <div class="toolbar">
         <div class="toolbar-left">
           <button id="timelineButton" class="timeline-btn" type="button">Ver cronología mundial</button>
-          <div class="pill">
+          <div class="pill year-select-pill">
             Año
             <select id="yearSelect" aria-label="Seleccionar año"></select>
           </div>
@@ -648,6 +1096,13 @@
           <button id="backButton" class="back-btn" type="button">Volver al corazón mundial</button>
         </div>
       </div>
+
+      <aside id="yearSidebar" class="year-sidebar" aria-label="Selector lateral de años">
+        <div class="year-panel">
+          <div class="year-panel-title">Años</div>
+          <div id="yearList" class="year-list" role="listbox" aria-label="Seleccionar año"></div>
+        </div>
+      </aside>
 
       <div id="mapCard" class="map-card">
         <svg id="map" role="img" aria-label="Mapa mundial con heatmap de mortalidad"></svg>
@@ -687,8 +1142,109 @@
     </div>
   </section>
 
+
+  <div id="keyEventModalBackdrop" class="key-event-modal-backdrop" aria-hidden="true">
+    <article class="key-event-modal" role="dialog" aria-modal="true" aria-labelledby="keyEventModalTitle">
+      <button id="keyEventModalClose" class="key-event-modal-close" type="button" aria-label="Cerrar ventana">×</button>
+      <div class="key-event-modal-grid">
+        <div class="event-info-heart modal-event-heart" aria-hidden="true">
+          <svg viewBox="0 0 512 512">
+            <path fill="url(#timelineHeartGradient)" stroke="rgba(255,255,255,.72)" stroke-width="2.4" d="M471.7 73.6C426.2 28.1 352.4 28.1 306.9 73.6L256 124.5l-50.9-50.9C159.6 28.1 85.8 28.1 40.3 73.6s-45.5 119.3 0 164.8L256 454.1l215.7-215.7c45.5-45.5 45.5-119.3 0-164.8z" />
+          </svg>
+          <div id="keyEventModalRate" class="event-info-heart-rate">--</div>
+        </div>
+        <div class="key-event-modal-content">
+          <p id="keyEventModalKicker" class="key-event-modal-kicker">Punto clave</p>
+          <h2 id="keyEventModalTitle">Evento histórico</h2>
+          <p id="keyEventModalSummary" class="key-event-modal-summary"></p>
+          <p id="keyEventModalDescription" class="key-event-modal-description"></p>
+          <p id="keyEventModalMeta" class="event-meta"></p>
+          <div class="key-event-modal-actions">
+            <button id="keyTimelineButton" class="key-timeline-btn" type="button">Evolución histórica</button>
+            <span id="keyEventTimelineStatus" class="key-event-timeline-status"></span>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
   <script>
     const CSV_FILE = 'mortalidad_worldbank_pais_anio.csv';
+
+
+    const KEY_EVENTS = [
+      {
+        id: 'car-2009',
+        year: 2009,
+        start_year: 2009,
+        end_year: 2009,
+        iso_n3: '140',
+        country_name: 'República Centroafricana',
+        title: 'Crisis sanitaria estructural, especialmente malaria',
+        summary: 'Crisis sanitaria: malaria, anemia y baja cobertura médica elevan la mortalidad.',
+        description: 'El aumento parece explicarse por una mortalidad alta por enfermedades prevenibles y tratables en un sistema de salud muy débil. MSF registraba que la malaria era una de las principales causas de muerte hospitalaria: de 1.997 muertes registradas en 2009, 670 fueron por malaria severa y 330 por anemia probablemente relacionada con malaria.',
+        offset: [-24, -16]
+      },
+      {
+        id: 'som-2011',
+        year: 2011,
+        start_year: 2010,
+        end_year: 2012,
+        iso_n3: '706',
+        country_name: 'Somalia',
+        title: 'Hambruna de Somalia',
+        summary: 'Hambruna causada por sequía, conflicto y falta de respuesta humanitaria suficiente.',
+        description: 'Entre 2010 y 2012, el sur y centro de Somalia sufrieron inseguridad alimentaria severa y hambruna; se estiman unas 258.000 muertes en exceso, de las cuales cerca del 52% fueron niños menores de cinco años. La crisis combinó sequía prolongada, malas cosechas, alza de precios, conflicto e insuficiente ayuda humanitaria.',
+        offset: [-18, -12]
+      },
+      {
+        id: 'car-2014',
+        year: 2014,
+        start_year: 2013,
+        end_year: 2014,
+        iso_n3: '140',
+        country_name: 'República Centroafricana',
+        title: 'Guerra civil y violencia sectaria Séléka / anti-Balaka',
+        summary: 'Guerra civil y violencia sectaria provocan muertes masivas y desplazamiento.',
+        description: 'Tras el colapso político de 2013, la violencia entre ex-Séléka y anti-Balaka se intensificó. En Bangui, la violencia de diciembre de 2013 dejó al menos 1.000 muertos en pocas semanas, y para inicios de 2014 el país ya estaba en una situación de guerra interna con desplazamientos masivos. MSF también documentó 2.599 muertes entre refugiados centroafricanos encuestados entre noviembre de 2013 y abril de 2014, con 95% de esas muertes causadas por armas de fuego, machetes, granadas u otras heridas explosivas.',
+        offset: [0, -30]
+      },
+      {
+        id: 'som-2017',
+        year: 2017,
+        start_year: 2017,
+        end_year: 2018,
+        iso_n3: '706',
+        country_name: 'Somalia',
+        title: 'Sequía, cólera/diarrea aguda y crisis alimentaria',
+        summary: 'Nueva sequía y brotes de cólera elevan la mortalidad, especialmente en zonas rurales.',
+        description: 'En 2017, partes de Somalia volvieron a acercarse a niveles de hambruna: en zonas rurales de Bay, la tasa bruta de mortalidad y la mortalidad de menores de cinco años superaron los umbrales usados para declarar hambruna, y la principal causa reportada fue diarrea asociada a cólera/AWD. Estudios posteriores estimaron unas 44.700 muertes en exceso durante la crisis 2017–2018, con el exceso de 2017 aproximadamente el doble que el de 2018.',
+        offset: [18, -12]
+      },
+      {
+        id: 'car-2019',
+        year: 2019,
+        start_year: 2019,
+        end_year: 2019,
+        iso_n3: '140',
+        country_name: 'República Centroafricana',
+        title: 'Crisis humanitaria persistente, ataques armados, malnutrición, brotes y grandes inundaciones',
+        summary: 'Pese al acuerdo de paz, continúan ataques, desplazamiento, brotes e inundaciones.',
+        description: 'Aunque en febrero de 2019 se firmó un acuerdo de paz entre el gobierno y 14 grupos armados, UNICEF señala que los ataques contra la población continuaron ese año; además, una de cada cuatro personas estaba desplazada y 2,6 millones necesitaban asistencia humanitaria. A eso se sumaron malnutrición severa, brotes de polio derivada de vacuna, sarampión, viruela símica y meningitis. También hubo inundaciones fuertes en Bangui y zonas del río Oubangui, con decenas de miles de personas afectadas, viviendas y letrinas destruidas y contaminación de puntos de agua.',
+        offset: [24, -16]
+      }
+    ].map(event => ({
+      ...event,
+      iso_n3: normaliseKeyIso(event.iso_n3),
+      start_year: Number(event.start_year ?? event.year),
+      end_year: Number(event.end_year ?? event.year)
+    })).sort((a, b) => a.year - b.year);
+
+    function normaliseKeyIso(value) {
+      return String(value ?? '').trim().padStart(3, '0');
+    }
+
+    const KEY_EVENTS_BY_YEAR = new Map(KEY_EVENTS.map(event => [event.year, event]));
 
     let DATA = [];
     let YEARS = [];
@@ -714,6 +1270,7 @@
       svg: null,
       countryLayer: null,
       heartLayer: null,
+      keyLayer: null,
       graticuleLayer: null,
       mapWidth: 1000,
       mapHeight: 640,
@@ -722,6 +1279,10 @@
       timelineActive: false,
       timelineTimer: null,
       timelineIndex: 0,
+      keyEventTimelineActive: false,
+      keyEventTimelineTimer: null,
+      keyEventTimelineIndex: 0,
+      activeKeyEvent: null,
     };
 
     const introScreen = document.getElementById('introScreen');
@@ -732,6 +1293,17 @@
     const prevYearButton = document.getElementById('prevYearButton');
     const nextYearButton = document.getElementById('nextYearButton');
     const yearSelect = document.getElementById('yearSelect');
+    const yearList = document.getElementById('yearList');
+    const keyTimelineButton = document.getElementById('keyTimelineButton');
+    const keyEventModalBackdrop = document.getElementById('keyEventModalBackdrop');
+    const keyEventModalClose = document.getElementById('keyEventModalClose');
+    const keyEventModalRate = document.getElementById('keyEventModalRate');
+    const keyEventModalKicker = document.getElementById('keyEventModalKicker');
+    const keyEventModalTitle = document.getElementById('keyEventModalTitle');
+    const keyEventModalSummary = document.getElementById('keyEventModalSummary');
+    const keyEventModalDescription = document.getElementById('keyEventModalDescription');
+    const keyEventModalMeta = document.getElementById('keyEventModalMeta');
+    const keyEventTimelineStatus = document.getElementById('keyEventTimelineStatus');
     const globalPill = document.getElementById('globalPill');
     const soundWarning = document.getElementById('soundWarning');
     const timelineButton = document.getElementById('timelineButton');
@@ -962,17 +1534,61 @@
 
     function setupYearSelect() {
       yearSelect.innerHTML = '';
+      yearList.innerHTML = '';
+
       for (const y of YEARS) {
         const opt = document.createElement('option');
         opt.value = y;
         opt.textContent = y;
         if (y === LATEST_YEAR) opt.selected = true;
         yearSelect.appendChild(opt);
+
+        const keyEvent = KEY_EVENTS_BY_YEAR.get(y);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = keyEvent ? 'year-item has-key' : 'year-item';
+        btn.dataset.year = String(y);
+        if (keyEvent) btn.dataset.keyEventId = keyEvent.id;
+        btn.setAttribute('role', 'option');
+        btn.setAttribute('aria-label', keyEvent ? `Ver año ${y}: ${keyEvent.country_name}, ${keyEvent.title}` : `Ver año ${y}`);
+        btn.title = keyEvent ? `${keyEvent.country_name}: ${keyEvent.summary}` : `Ver año ${y}`;
+        btn.innerHTML = `<span class="year-key-marker" aria-hidden="true"></span><span>${y}</span>`;
+        btn.addEventListener('click', () => {
+          if (state.timelineActive) stopTimeline({ stopSound: true });
+          if (state.keyEventTimelineActive) stopKeyEventTimeline({ stopSound: true });
+          if (keyEvent) {
+            openKeyEventModal(keyEvent, { requestAudio: true });
+          } else {
+            closeKeyEventModal({ stopHistoricalTimeline: true, stopSound: false });
+            state.activeKeyEvent = null;
+            changeYear(y);
+          }
+        });
+        yearList.appendChild(btn);
       }
+
       yearSelect.addEventListener('change', () => {
         if (state.timelineActive) stopTimeline({ stopSound: true });
+        if (state.keyEventTimelineActive) stopKeyEventTimeline({ stopSound: true });
         changeYear(Number(yearSelect.value));
       });
+    }
+
+    function updateYearList() {
+      if (!yearList) return;
+      const active = [];
+      yearList.querySelectorAll('.year-item').forEach(btn => {
+        const isActive = Number(btn.dataset.year) === state.selectedYear;
+        const isActiveKey = state.activeKeyEvent && btn.dataset.keyEventId === state.activeKeyEvent.id;
+        btn.classList.toggle('active', isActive);
+        btn.classList.toggle('active-key', !!isActiveKey);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        if (isActive) active.push(btn);
+      });
+
+      if (active[0]) {
+        active[0].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
     }
 
     function updateYearButtons() {
@@ -981,28 +1597,253 @@
       prevYearButton.disabled = idx <= 0;
       nextYearButton.disabled = idx < 0 || idx >= YEARS.length - 1;
       yearSelect.value = state.selectedYear;
+      updateYearList();
     }
 
-    function changeYear(newYear) {
+    function changeYear(newYear, options = {}) {
+      const { resetInfo = true, clearSelection = true } = options;
       if (!YEARS.includes(newYear)) return;
       state.selectedYear = newYear;
       const bpm = setWorldHeart(state.selectedYear);
       const timelineBpm = state.timelineActive ? updateTimelineHeart(state.selectedYear) : bpm;
       updateYearButtons();
-      selectedInfo.classList.add('updating');
-      mapCard.classList.add('year-changing');
-      setTimeout(() => {
-        selectedInfo.innerHTML = `<strong>Año ${state.selectedYear}</strong><br />Selecciona un país para ver su corazón.`;
+      if (resetInfo) {
+        selectedInfo.classList.remove('event-mode');
+        selectedInfo.classList.add('updating');
+        mapCard.classList.add('year-changing');
+        setTimeout(() => {
+          selectedInfo.innerHTML = `<strong>Año ${state.selectedYear}</strong><br />Selecciona un país para ver su corazón.`;
+          selectedInfo.classList.remove('updating');
+          mapCard.classList.remove('year-changing');
+        }, 260);
+      } else {
         selectedInfo.classList.remove('updating');
-        mapCard.classList.remove('year-changing');
-      }, 260);
-      clearCountryHeart();
-      state.lastSelectedFeature = null;
-      state.lastSelectedRow = null;
-      if (state.mapReady) updateMapColors();
+        mapCard.classList.add('year-changing');
+        setTimeout(() => mapCard.classList.remove('year-changing'), 260);
+      }
+      if (clearSelection) {
+        clearCountryHeart();
+        state.lastSelectedFeature = null;
+        state.lastSelectedRow = null;
+        state.activeKeyEvent = null;
+      }
+      if (state.mapReady) {
+        updateMapColors();
+        drawKeyEventMarkers();
+      }
       if (state.soundEnabled) startBeat(state.timelineActive ? timelineBpm : bpm);
     }
 
+
+
+    function eventRow(event, year = event.year) {
+      return DATA_BY_YEAR.get(year)?.get(event.iso_n3);
+    }
+
+    function featureForIso(isoN3) {
+      if (!state.countries) return null;
+      const iso = normaliseIsoN3(isoN3);
+      return state.countries.find(feature => String(feature.id).padStart(3, '0') === iso) || null;
+    }
+
+    function keyEventsAvailable() {
+      return KEY_EVENTS.filter(event => YEARS.some(year => year >= event.start_year && year <= event.end_year));
+    }
+
+    function keyEventYears(event) {
+      const years = YEARS.filter(year => year >= event.start_year && year <= event.end_year);
+      if (years.length) return years;
+      return YEARS.includes(event.year) ? [event.year] : [];
+    }
+
+    function rateForKeyEvent(event, year = event.year) {
+      const row = eventRow(event, year);
+      return Number.isFinite(row?.death_rate_per_1000) ? row.death_rate_per_1000 : WORLD_AVG[String(year)];
+    }
+
+    function setKeyEventHeart(rate) {
+      if (!Number.isFinite(rate)) {
+        document.documentElement.style.setProperty('--keyEventHeartScale', '0.82');
+        document.documentElement.style.setProperty('--keyEventBeat', '1.15s');
+        return 60;
+      }
+      const scale = 0.72 + Math.sqrt(clamp((rate - Q05_RATE) / Math.max(0.001, Q95_RATE - Q05_RATE), 0, 1)) * 0.72;
+      const bpm = rateToBpm(rate);
+      document.documentElement.style.setProperty('--keyEventHeartScale', scale.toFixed(3));
+      document.documentElement.style.setProperty('--keyEventBeat', bpmToDuration(bpm));
+      document.documentElement.style.setProperty('--countryBeat', bpmToDuration(bpm));
+      return bpm;
+    }
+
+    function eventRangeText(event) {
+      return event.start_year === event.end_year
+        ? `${event.year}`
+        : `${event.start_year}–${event.end_year}`;
+    }
+
+    function forceShowKeyEventModal() {
+      // Mantiene el modal por encima de cualquier capa del mapa y evita que quede oculto
+      // si alguna transición o stacking context del SVG interfiere.
+      if (keyEventModalBackdrop.parentElement !== document.body) {
+        document.body.appendChild(keyEventModalBackdrop);
+      }
+      forceShowKeyEventModal();
+      keyEventModalBackdrop.style.opacity = '1';
+      keyEventModalBackdrop.style.visibility = 'visible';
+      keyEventModalBackdrop.style.pointerEvents = 'auto';
+      keyEventModalBackdrop.style.zIndex = '2147483000';
+    }
+
+    function forceHideKeyEventModal() {
+      keyEventModalBackdrop.classList.remove('visible');
+      keyEventModalBackdrop.setAttribute('aria-hidden', 'true');
+      keyEventModalBackdrop.style.opacity = '';
+      keyEventModalBackdrop.style.visibility = '';
+      keyEventModalBackdrop.style.pointerEvents = '';
+      keyEventModalBackdrop.style.zIndex = '';
+    }
+
+    function updateKeyEventModal(event, year = event.year) {
+      const row = eventRow(event, year);
+      const rate = Number.isFinite(row?.death_rate_per_1000) ? row.death_rate_per_1000 : null;
+      const rateText = Number.isFinite(rate) ? formatRate(rate) : 'sin dato';
+      const meta = Number.isFinite(rate)
+        ? `${rateText} muertes por cada 1.000 habitantes · ${event.country_name} · ${year}`
+        : `Sin dato de mortalidad para ${event.country_name} en ${year} en el CSV cargado`;
+
+      setKeyEventHeart(rate);
+      keyEventModalRate.textContent = rateText;
+      keyEventModalKicker.textContent = `${eventRangeText(event)} · ${event.country_name}`;
+      keyEventModalTitle.textContent = `${event.year} — ${event.title}`;
+      keyEventModalSummary.textContent = event.summary;
+      keyEventModalDescription.textContent = event.description;
+      keyEventModalMeta.textContent = meta;
+    }
+
+    function openKeyEventModal(event, options = {}) {
+      const { requestAudio = false } = options;
+      if (!event) return;
+      if (state.timelineActive) stopTimeline({ stopSound: false });
+      if (state.keyEventTimelineActive) stopKeyEventTimeline({ stopSound: true });
+
+      state.activeKeyEvent = event;
+      const targetYear = YEARS.includes(event.year) ? event.year : keyEventYears(event)[0];
+      if (targetYear) changeYear(targetYear, { resetInfo: false, clearSelection: false });
+
+      clearCountryHeart();
+      state.lastSelectedFeature = null;
+      state.lastSelectedRow = null;
+      updateKeyEventModal(event, targetYear || event.year);
+      const modalRate = rateForKeyEvent(event, targetYear || event.year);
+      const modalBpm = setKeyEventHeart(modalRate);
+      if (requestAudio) enableAudio().then(ok => { if (ok) startBeat(modalBpm); });
+      else if (state.soundEnabled) startBeat(modalBpm);
+      keyTimelineButton.textContent = 'Evolución histórica';
+      keyTimelineButton.classList.remove('active');
+      keyEventTimelineStatus.textContent = event.start_year === event.end_year
+        ? 'Este hito tiene un solo año de interés.'
+        : `Recorre ${event.start_year}–${event.end_year}.`;
+      keyEventModalBackdrop.classList.add('visible');
+      keyEventModalBackdrop.setAttribute('aria-hidden', 'false');
+      selectedInfo.classList.remove('event-mode');
+      selectedInfo.innerHTML = `<strong>${event.country_name} · ${event.year}</strong><br />Punto clave abierto. Usa “Evolución histórica” en la ventana central.`;
+      updateYearList();
+      drawKeyEventMarkers();
+
+      if (requestAudio) enableAudio();
+    }
+
+    function closeKeyEventModal(options = {}) {
+      const { stopHistoricalTimeline = true, stopSound = false } = options;
+      if (stopHistoricalTimeline && state.keyEventTimelineActive) stopKeyEventTimeline({ stopSound });
+      forceHideKeyEventModal();
+      keyEventTimelineStatus.textContent = '';
+    }
+
+    function showKeyEventYear(event, year, options = {}) {
+      const { drawHeart = true, requestAudio = false } = options;
+      if (!event || !YEARS.includes(year)) return;
+
+      state.activeKeyEvent = event;
+      changeYear(year, { resetInfo: false, clearSelection: false });
+      const row = eventRow(event, year);
+      const feature = featureForIso(event.iso_n3);
+      const rate = rateForKeyEvent(event, year);
+      const bpm = setKeyEventHeart(rate);
+
+      updateKeyEventModal(event, year);
+      keyEventTimelineStatus.textContent = event.start_year === event.end_year
+        ? `Año único del hito: ${year}.`
+        : `Evolución histórica: ${year} de ${event.start_year}–${event.end_year}.`;
+
+      state.lastSelectedFeature = feature;
+      state.lastSelectedRow = row || null;
+      if (drawHeart && feature && row) drawCountryHeart(feature, row, true);
+      else clearCountryHeart();
+
+      updateYearList();
+      drawKeyEventMarkers();
+
+      if (requestAudio) enableAudio().then(ok => { if (ok) startBeat(bpm); });
+      else if (state.soundEnabled) startBeat(bpm);
+    }
+
+    function stopKeyEventTimeline(options = {}) {
+      const { stopSound = true } = options;
+      if (state.keyEventTimelineTimer) {
+        clearInterval(state.keyEventTimelineTimer);
+        state.keyEventTimelineTimer = null;
+      }
+      state.keyEventTimelineActive = false;
+      state.keyEventTimelineIndex = 0;
+      keyTimelineButton.textContent = 'Evolución histórica';
+      keyTimelineButton.classList.remove('active');
+      if (stopSound) stopBeat();
+    }
+
+    async function startKeyEventTimeline() {
+      const event = state.activeKeyEvent;
+      if (!event) return;
+      const years = keyEventYears(event);
+      if (!years.length) {
+        keyEventTimelineStatus.textContent = 'El CSV cargado no contiene años para este hito.';
+        return;
+      }
+      if (state.timelineActive) stopTimeline({ stopSound: false });
+      state.keyEventTimelineActive = true;
+      state.keyEventTimelineIndex = 0;
+      keyTimelineButton.textContent = 'Parar evolución';
+      keyTimelineButton.classList.add('active');
+      await enableAudio();
+      showKeyEventYear(event, years[0], { drawHeart: true, requestAudio: false });
+
+      if (years.length === 1) {
+        state.keyEventTimelineActive = false;
+        keyTimelineButton.textContent = 'Evolución histórica';
+        keyTimelineButton.classList.remove('active');
+        keyEventTimelineStatus.textContent = `Año único del hito: ${years[0]}.`;
+        return;
+      }
+
+      state.keyEventTimelineTimer = setInterval(() => {
+        state.keyEventTimelineIndex += 1;
+        if (state.keyEventTimelineIndex >= years.length) {
+          stopKeyEventTimeline({ stopSound: false });
+          keyEventTimelineStatus.textContent = `Evolución histórica finalizada en ${state.selectedYear}.`;
+          return;
+        }
+        showKeyEventYear(event, years[state.keyEventTimelineIndex], { drawHeart: true, requestAudio: false });
+      }, 2300);
+    }
+
+    function toggleKeyEventTimeline() {
+      if (state.keyEventTimelineActive) {
+        stopKeyEventTimeline({ stopSound: true });
+        keyEventTimelineStatus.textContent = `Evolución pausada en ${state.selectedYear}.`;
+        return;
+      }
+      startKeyEventTimeline();
+    }
 
     function stopTimeline(options = {}) {
       const { stopSound = true } = options;
@@ -1026,6 +1867,7 @@
 
     async function startTimeline() {
       if (!YEARS.length) return;
+      if (state.keyEventTimelineActive) stopKeyEventTimeline({ stopSound: false });
       clearCountryHeart();
       state.lastSelectedFeature = null;
       state.lastSelectedRow = null;
@@ -1069,6 +1911,8 @@
 
     function showIntroScreen() {
       if (state.timelineActive) stopTimeline({ stopSound: false });
+      closeKeyEventModal({ stopHistoricalTimeline: true, stopSound: false });
+      if (state.keyEventTimelineActive) stopKeyEventTimeline({ stopSound: false });
       mapScreen.classList.remove('active');
       introScreen.classList.add('active');
       clearCountryHeart();
@@ -1092,6 +1936,7 @@
         state.svg = d3.select('#map');
         state.graticuleLayer = state.svg.append('g');
         state.countryLayer = state.svg.append('g');
+        state.keyLayer = state.svg.append('g');
         state.heartLayer = state.svg.append('g');
         state.svg.on('click', function(event) {
           const target = event.target;
@@ -1165,6 +2010,60 @@
       updateLegend();
     }
 
+
+    function keyEventMarkerPosition(event) {
+      const feature = featureForIso(event.iso_n3);
+      if (!feature || !state.path) return null;
+      const centroid = state.path.centroid(feature);
+      if (!Number.isFinite(centroid[0]) || !Number.isFinite(centroid[1])) return null;
+      const [dx, dy] = event.offset || [0, 0];
+      return [clamp(centroid[0] + dx, 18, state.mapWidth - 18), clamp(centroid[1] + dy, 18, state.mapHeight - 18)];
+    }
+
+    function drawKeyEventMarkers() {
+      if (!state.keyLayer || !state.mapReady) return;
+      const available = keyEventsAvailable();
+      const markers = state.keyLayer
+        .selectAll('g.key-event-marker')
+        .data(available, d => d.id);
+
+      const entered = markers.enter()
+        .append('g')
+        .attr('class', 'key-event-marker')
+        .attr('role', 'button')
+        .attr('tabindex', 0)
+        .on('click', function(event, d) {
+          event.stopPropagation();
+          openKeyEventModal(d, { requestAudio: true });
+        })
+        .on('keydown', function(event, d) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openKeyEventModal(d, { requestAudio: true });
+          }
+        });
+
+      entered.append('circle').attr('class', 'key-event-ring').attr('r', 8);
+      entered.append('circle').attr('class', 'key-event-dot').attr('r', 7);
+      entered.append('text').attr('class', 'key-event-year-label').attr('y', -17);
+      entered.append('title');
+
+      markers.merge(entered)
+        .attr('class', d => `key-event-marker${state.selectedYear === d.year ? ' active' : ''}${state.activeKeyEvent?.id === d.id ? ' active-key' : ''}`)
+        .attr('aria-label', d => `${d.year}, ${d.country_name}: ${d.title}`)
+        .transition()
+        .duration(520)
+        .ease(d3.easeCubicOut)
+        .attr('transform', d => {
+          const pos = keyEventMarkerPosition(d);
+          return pos ? `translate(${pos[0]}, ${pos[1]})` : 'translate(-9999, -9999)';
+        });
+
+      markers.merge(entered).select('text.key-event-year-label').text(d => d.year);
+      markers.merge(entered).select('title').text(d => `${d.year} — ${d.country_name}: ${d.summary}`);
+      markers.exit().remove();
+    }
+
     function updateMapColors() {
       state.countryLayer.selectAll('path.country')
         .attr('class', d => rowForFeature(d) ? 'country' : 'country no-data')
@@ -1192,14 +2091,20 @@
         stopBeat();
         state.currentBpm = null;
       }
+      closeKeyEventModal({ stopHistoricalTimeline: true, stopSound: false });
+      state.activeKeyEvent = null;
+      selectedInfo.classList.remove('event-mode');
       if (resetInfo) {
         selectedInfo.innerHTML = `<strong>Año ${state.selectedYear}</strong><br />Selecciona un país para ver su corazón.`;
       }
+      updateYearList();
+      drawKeyEventMarkers();
     }
 
     function handleMapEmptyClick() {
       if (state.timelineActive) return;
-      if (!state.lastSelectedRow && !state.lastSelectedFeature) return;
+      if (state.keyEventTimelineActive) stopKeyEventTimeline({ stopSound: true });
+      if (!state.lastSelectedRow && !state.lastSelectedFeature && !state.activeKeyEvent) return;
       clearSelectedCountry({ stopSound: true, resetInfo: true });
     }
 
@@ -1280,8 +2185,24 @@
       }
     }
 
+    function keyEventForFeatureYear(feature, year = state.selectedYear) {
+      if (!feature) return null;
+      const iso = String(feature.id).padStart(3, '0');
+      return KEY_EVENTS.find(event => event.iso_n3 === iso && event.year === year) || null;
+    }
+
     function selectCountry(feature, row) {
+      const clickedKeyEvent = keyEventForFeatureYear(feature, state.selectedYear);
+      if (clickedKeyEvent) {
+        openKeyEventModal(clickedKeyEvent, { requestAudio: true });
+        return;
+      }
+
       if (state.timelineActive) stopTimeline({ stopSound: false });
+      if (state.keyEventTimelineActive) stopKeyEventTimeline({ stopSound: false });
+      closeKeyEventModal({ stopHistoricalTimeline: true, stopSound: false });
+      state.activeKeyEvent = null;
+      selectedInfo.classList.remove('event-mode');
       if (!row) {
         clearSelectedCountry({ stopSound: true, resetInfo: false });
         const countryName = feature.properties?.name || 'este país';
@@ -1308,6 +2229,7 @@
 
     worldHeart.disabled = true;
     timelineButton.disabled = true;
+    keyTimelineButton.disabled = true;
     soundButton.disabled = true;
     yearSelect.disabled = true;
     prevYearButton.disabled = true;
@@ -1322,6 +2244,16 @@
     });
 
     timelineButton.addEventListener('click', toggleTimeline);
+    keyTimelineButton.addEventListener('click', toggleKeyEventTimeline);
+    keyEventModalClose.addEventListener('click', () => closeKeyEventModal({ stopHistoricalTimeline: true, stopSound: true }));
+    keyEventModalBackdrop.addEventListener('click', (event) => {
+      if (event.target === keyEventModalBackdrop) closeKeyEventModal({ stopHistoricalTimeline: true, stopSound: true });
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && keyEventModalBackdrop.classList.contains('visible')) {
+        closeKeyEventModal({ stopHistoricalTimeline: true, stopSound: true });
+      }
+    });
 
     soundButton.addEventListener('click', async () => {
       if (state.soundEnabled) {
@@ -1340,12 +2272,14 @@
 
     prevYearButton.addEventListener('click', () => {
       if (state.timelineActive) stopTimeline({ stopSound: true });
+      if (state.keyEventTimelineActive) stopKeyEventTimeline({ stopSound: true });
       const idx = YEARS.indexOf(state.selectedYear);
       if (idx > 0) changeYear(YEARS[idx - 1]);
     });
 
     nextYearButton.addEventListener('click', () => {
       if (state.timelineActive) stopTimeline({ stopSound: true });
+      if (state.keyEventTimelineActive) stopKeyEventTimeline({ stopSound: true });
       const idx = YEARS.indexOf(state.selectedYear);
       if (idx >= 0 && idx < YEARS.length - 1) changeYear(YEARS[idx + 1]);
     });
@@ -1368,6 +2302,7 @@
 
         worldHeart.disabled = false;
         timelineButton.disabled = false;
+        keyTimelineButton.disabled = keyEventsAvailable().length === 0;
         soundButton.disabled = false;
         yearSelect.disabled = false;
         updateYearButtons();
